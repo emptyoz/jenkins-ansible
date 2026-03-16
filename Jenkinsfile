@@ -16,7 +16,7 @@ pipeline {
 
         stage('Deploy with Ansible') {
             steps {
-                sh 'ansible-playbook ansible/playbook.yml'
+                sh 'ansible-playbook ansible/playbook.yml -e "workspace=${WORKSPACE}"'
             }
         }
 

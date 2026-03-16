@@ -10,7 +10,7 @@
 
     - name: Copy binary to /tmp/app
       copy:
-        src: app/app
+        src: /tmp/app/app
         dest: /tmp/app/app
         mode: '0755'
         backup: yes   # на всякий случай создаст бэкап, если файл уже есть

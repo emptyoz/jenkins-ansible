@@ -2,25 +2,15 @@ pipeline {
     agent any
 
     stages {
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
-
         stage('Test') {
             steps {
-                dir('app') {
-                    sh 'go test ./...'
-                }
+                sh 'cd app && go test ./...'
             }
         }
 
         stage('Build') {
             steps {
-                dir('app') {
-                    sh 'go build -o app'
-                }
+                sh 'cd app && go build -o app'
             }
         }
 
@@ -30,10 +20,9 @@ pipeline {
             }
         }
 
-        stage('Verify') {
+        stage('Archive binary') {
             steps {
-                sh 'sleep 3'
-                sh 'curl http://localhost:8080/?text=Go || echo "Service not ready yet"'
+                archiveArtifacts artifacts: 'app/app', fingerprint: true
             }
         }
     }

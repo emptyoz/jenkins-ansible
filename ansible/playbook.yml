@@ -2,29 +2,15 @@
 - hosts: localhost
   connection: local
   tasks:
-    - name: Ensure /opt/app directory exists
+    - name: Ensure /tmp/app directory exists
       file:
-        path: /opt/app
+        path: /tmp/app
         state: directory
-
-    - name: Copy binary
-      copy:
-        src: /workspace/app/app
-        dest: /opt/app/app
         mode: '0755'
 
-    - name: Kill old process (if any)
-      command: pkill -f /opt/app/app
-      ignore_errors: yes
-      failed_when: false
-
-    - name: Start app in background
-      shell: nohup /opt/app/app > /opt/app/app.log 2>&1 &
-      async: 10
-      poll: 0
-
-    - name: Wait for app to start
-      wait_for:
-        port: 8080
-        delay: 2
-        timeout: 10
+    - name: Copy binary to /tmp/app
+      copy:
+        src: /workspace/app/app
+        dest: /tmp/app/app
+        mode: '0755'
+        backup: yes   # на всякий случай создаст бэкап, если файл уже есть

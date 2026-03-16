@@ -17,7 +17,7 @@ func hashString(s string) string {
 func handler(w http.ResponseWriter, r *http.Request) {
 	text := r.URL.Query().Get("text")
 	if text == "" {
-		text = "hello world"
+		text = "world"
 	}
 	result := hashString(text)
 	fmt.Fprintf(w, "SHA256(%q) = %s\n", text, result)
